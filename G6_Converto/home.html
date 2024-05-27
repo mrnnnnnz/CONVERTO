@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	<title>Converto</title>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+            overflow: hidden;
+        }
+
+		header {
+            height: 80px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        #logo {
+            line-height: 60px;
+            cursor: defult;
+            font-size: 30px;
+            font-weight: bold;
+            color: #00a7ff; /* blue */
+        }
+
+        #logo:hover {
+            color: #eef9ff; /* white */
+        }
+
+        #logo-s {
+            color: #eef9ff; /* white */
+        }
+
+        #logo:hover #logo-s {
+            color: #00a7ff; /* blue */
+        }
+
+        .sign {
+            line-height: 60px;
+        }
+
+        .sign a {
+            color: #fff;
+            font-weight: bold;
+            text-decoration: none;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+
+        .act {
+            border: 2px solid #fff;
+            border-radius: 50px;
+            padding: 6px 15px;
+        }
+
+        .sign a:hover {
+            color: #00a7ff; /* blue */
+            border-color: #00a7ff; /* blue */
+        }
+
+        .slider {
+			position: relative;
+			width: 100%; 
+			height: 100vh; 
+			background: #0D203B; 
+			overflow: hidden; 
+		}
+
+        .myslide {
+            height: 750px;
+            display: none;
+            overflow: hidden;
+        }
+		
+		.myslide.fade {
+			animation: fadeIn 3s ease-out;
+		}
+		
+		@keyframes fadeIn {
+			from { opacity: 0; }
+			to { opacity: 1; }
+		}
+		
+        .prev,
+        .next {
+            position: absolute;
+            top: 35%;
+            font-size: 70px;
+            padding: 30px;
+            cursor: pointer;
+            color: #fff;
+            user-select: none;
+        }
+		
+		.prev,.next {
+			transition: color 0.2s ease;
+		}
+
+		.prev:hover,.next:hover {
+			color: #00a7ff; /* blue */
+		}
+
+        .next {
+            right: 0;
+        }
+
+        .active,
+        .dot:hover {
+            border-color: #00a7ff; /* blue */
+        }
+
+		.myslide.fade.first-slide {
+			height: 100vh;
+			background-image: url('home.png'); 
+			background-size: cover;
+			background-position: center;
+		}
+		
+		.myslide.fade.creators .creators{
+            display: flex;
+            justify-content: flex-end; 
+            margin-top: 8%;
+        }
+
+        .creator-details {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .creator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .creator img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-top: 50px;
+        }
+
+        .creator h1 {
+            color: #fff;
+            font-weight: bold;
+            font-size: 30px;
+            margin-top: 10px;
+        }
+
+        .creator p {
+            color: #fff;
+            font-size: 15px;
+        }
+
+        .social-media-icons {
+            margin-top: 10px;
+
+        }
+
+        .social-media-icons a {
+            display: inline-block;
+            margin-right: 10px; 
+            color: #fff;
+            font-size: 25px;
+        }
+
+        .social-media-icons a:hover {
+            color: #00a7ff;
+        }
+
+        .text-section {
+            width: 90%;
+        }
+
+        .text-section h2 {
+            color: #fff;
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        .text-section p {
+            color: #ccc;
+            font-size: 20px;
+        }
+		
+		.welcome-banner {
+			position: absolute;
+			top: 47%;
+			left: 40%;
+			transform: translate(-50%, -50%);
+			color: #fff; 
+			
+		}
+
+		.welcome-banner h1 {
+			font-size: 65px;
+			margin-bottom: 20px;
+		}
+
+		.welcome-banner p {
+			font-size: 20px;
+			width: 75%;
+			line-height: 1.5;
+			text-align: justify;
+		}
+		
+		.container {
+			display: flex;
+			align-items: center;	
+		}
+		
+		.quiz {
+			margin-left: 20%;
+			max-width: 550px;
+			height: 505px;
+			margin-top: 6%;
+			padding: 25px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+
+		.quiz h2 {
+			margin-bottom: 10px;    
+			font-size: 30px;
+			color: #007bff;
+			text-align: center;
+		}
+
+		.quiz select,
+		.quiz input[type="number"] {
+			width: 100%;
+			padding: 10px;
+			font-size: 18px;
+			margin-bottom: 20px;
+			border: 1px solid #ced4da;
+			border-radius: 5px;
+			box-sizing: border-box;
+		}
+
+		.quiz button {
+			width: 100%;
+			padding: 10px 10px;
+			margin-bottom: 10px;
+			background-color: #007bff;
+			color: #fff;
+			font-size: 18px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+
+		.quiz button:hover {
+			background-color: #0056b3;
+		}
+
+		.quiz #result,
+		.quiz #question {
+			font-weight: bold;
+			text-align: center;
+			margin-bottom: 10px;
+			font-size: 18px;
+			padding: 18px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+		}
+		
+		.quiz #question, .quiz #score {
+			color: #fff;
+		}
+
+		.quiz #result {
+			color: #FF0000;
+		}
+		
+		.quiz #score {
+			font-size: 20px;
+		}
+
+		#container {
+			width: 350px;
+			height: 420px;
+			margin: 9rem 6rem auto; 
+			background-color: #ABABAB;
+			border-radius: 4px;
+			border: 2px solid #C1C1C1;
+			box-shadow: -3px 3px 7px rgba(0, 0, 0, .6), inset -100px 0px 100px rgba(255, 255, 255, .5);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			perspective: 800px; /* Add perspective for 3D effect */
+		}
+
+		#display {
+			display: block;
+			margin: 15px auto;
+			height: 60px;
+			width: 310px;
+			padding: 0 10px;
+			border-radius: 4px;
+			border-top: 2px solid #C1C1C1;
+			border-right: 2px solid #C1C1C1;
+			border-bottom: 2px solid #FFF;
+			border-left: 2px solid #FFF;
+			background-color: #FFF;
+			box-shadow: inset 0px 0px 10px #030303, inset 0px -20px 1px rgba(150, 150, 150, .2);
+			font-size: 30px;
+			color: #666;
+			text-align: right;
+			font-weight: 400;
+			transform-style: preserve-3d; /* Add 3D transformations */
+			transform: rotateY(10deg); /* Apply initial rotation */
+		}
+
+		.button {
+			margin: 2px;
+			width: 70px;
+			height: 70px;
+			font-size: 20px;
+			font-weight: bold;
+			border-radius: 4px;
+			transform-style: preserve-3d; /* Add 3D transformations */
+		}
+
+		.mathButtons {
+			margin: 2px 2px 6px 2px;
+			color: #FFF;
+			text-shadow: -1px -1px 0px #44006F;
+			background-color: #434343;
+			border-top: 2px solid #C1C1C1;
+			border-right: 2px solid #C1C1C1;
+			border-bottom: 2px solid #181818;
+			border-left: 2px solid #181818;
+			box-shadow: 0px 0px 2px #030303, inset 0px -20px 1px #2E2E2E;
+			transform-style: preserve-3d; /* Add 3D transformations */
+		}
+
+		.digits {
+			color: #181818;
+			text-shadow: 1px 1px 0px #FFF;
+			background-color: #EBEBEB;
+			border-top: 2px solid #FFF;
+			border-right: 2px solid #FFF;
+			border-bottom: 2px solid #C1C1C1;
+			border-left: 2px solid #C1C1C1;
+			border-radius: 4px;
+			box-shadow: 0px 0px 2px #030303, inset 0px -20px 1px #DCDCDC;
+			transform-style: preserve-3d; /* Add 3D transformations */
+		}
+
+		.digits:hover,
+		.mathButtons:hover,
+		#clearButton:hover {
+			background-color: #FFBA75;
+			box-shadow: 0px 0px 2px #FFBA75, inset 0px -20px 1px #FF8000;
+			border-top: 2px solid #FFF;
+			border-right: 2px solid #FFF;
+			border-bottom: 2px solid #AE5700;
+			border-left: 2px solid #AE5700;
+			transform: translateY(-2px) rotateX(10deg); /* Apply hover effect with rotation */
+		}
+
+		#clearButton {
+			color: #FFF;
+			text-shadow: -1px -1px 0px #44006F;
+			background-color: #D20000;
+			border-top: 2px solid #FF8484;
+			border-right: 2px solid #FF8484;
+			border-bottom: 2px solid #800000;
+			border-left: 2px solid #800000;
+			box-shadow: 0px 0px 2px #030303, inset 0px -20px 1px #B00000;
+			transform-style: preserve-3d; /* Add 3D transformations */
+		}
+
+		.converter-options {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 8%;
+            flex-wrap: wrap;
+            padding: 0 10%;
+        }
+
+		.converter-option {
+			text-align: center;
+			transition: transform 0.3s ease;
+			margin-bottom: 30px;
+			padding: 30px;
+			background-color: #e5e4e2; 	
+			border-radius: 5px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			width: 350px;
+		}
+
+        .converter-option:hover {
+            transform: translateY(-3px);
+        }
+
+        .converter-option img {
+            width: 100%;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .converter-option:hover img {
+            transform: scale(1.1);
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+		.learn-more-button {
+			color: #fff;
+			font-weight: bold;
+			text-decoration: none;
+			border-radius: 5px;
+			background-color: #0047AB; 
+			transition: background-color 0.3s ease;
+			padding: 15px 20px;
+			display: inline-block;
+			width: 300px; 
+			height: 50px; 
+			text-align: center;
+		}
+
+        .learn-more-button:hover {
+			#0093d9; 
+        }	
+		
+		.converter-option:hover {
+			background-color: #FFBA75;
+			box-shadow: 
+				0px 0px 10px #FFBA75, 
+				inset 0px -10px 0px #FF8000, 
+				5px 5px 15px rgba(0, 0, 0, 0.3);
+			border-top: 2px solid #AE5700;
+			border-right: 2px solid #AE5700;
+			border-bottom: 2px solid #AE5700;
+			border-left: 2px solid #AE5700;
+			transform: translateY(-2px); 
+			perspective: 1000px; 
+			transform: perspective(1000px) rotateX(10deg); 
+		}
+		
+		.quiz-container {
+			font-family: "Roboto", sans-serif;
+			max-width: 900px;
+			margin: 8% auto;
+			padding: 16px;
+			display: none;
+		}
+
+		.quiz-container .timer {
+			font-weight: bold;
+			text-align: right;
+			color: #fff;
+			margin-top: 10px;
+			margin-bottom: 10px;
+		}
+
+		.timer.danger {
+			color: red;
+		}
+		
+		.quiz-container h1 {
+		  font-size: 50px;
+		  color: #fff;
+		  margin: 0;
+		}
+
+		.quiz-container h2.question {
+			font-size: 20px;
+			background: #d0ecff;
+			padding: 16px;
+			border-radius: 8px;
+			font-weight: normal;
+			line-height: 1.6;
+		}
+
+		.quiz-container .options {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 16px;
+			margin-bottom: 20px;
+		}
+
+		.quiz-container .option {
+			border: none;
+			padding: 24px 32px;
+			font-size: 18px;
+			background: #1d3557;
+			color: #fff;
+		}
+
+		.quiz-container button {
+			cursor: pointer;
+		}
+
+		.disabled {
+			pointer-events: none;
+		}
+
+		.option.correct {
+			background: #51e351;
+			color: #222;
+		}
+
+		.option.incorrect {
+			background: #e63946;
+		}
+
+		.quiz-container .next-btn,
+		.quiz-result .retake-btn {
+			background: #222;
+			color: #fff;
+			border: none;
+			padding: 12px 32px;
+			font-size: 20px;
+			text-transform: uppercase;
+			font-weight: bold;
+			letter-spacing: 3px;
+			cursor: pointer;
+			width: fit-content;
+		}
+
+		.quiz-result {
+			display: none;
+			flex-direction: column;
+			gap: 5px;
+			max-width: 900px;
+			margin: 3% auto;
+			color: #fff;
+			font-family: "Roboto", sans-serif;
+			padding: 15px;
+		}
+
+		.quiz-result .question-container {
+			padding: 12px;
+			border: 1px solid #eee;
+			display: flex;
+			flex-direction: column;
+			gap: 5px;
+		}
+
+		.quiz-result .question-container.incorrect {
+			background: #e63946;
+			color: #fff;
+		}
+
+		.question-number {
+			font-size: 16px;
+			margin-right: 16px;
+			background: #1d3557;
+			color: #fff;
+			padding: 8px;
+			border-radius: 8px;
+		}
+
+		@media (max-width: 700px) {
+		.quiz-container .options {
+			grid-template-columns: 1fr;
+		  }
+		}
+
+		.start-btn-container {
+			position: absolute;
+			top: 45%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			font-family: "Roboto", sans-serif;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.start-btn-container h2 {
+		  font-size: 50px;
+		  color: #fff;
+		  margin: 0;
+		}
+		
+		.start-btn-container p {
+		  font-size: 25px;
+		  color: #fff;
+		  margin-top: 10px;
+		}
+
+		.start-btn-container .start-btn {
+			background: #e63946;
+			color: #fff;
+			margin-top: 20px;
+			padding: 15px 30px;
+			border-radius: 8px;
+			border: none;
+			font-size: 24px;
+			cursor: pointer;
+			text-transform: uppercase;
+			font-weight: bold;
+		}
+
+
+		footer {
+			background-color: #fff;
+			color: #000;
+			padding: 15px;
+			text-align: center;
+			position: fixed; 
+			width: 100%; 
+			bottom: 0; 
+		}
+
+		footer p {
+			margin: 0; 
+		}
+		
+		footer p {
+			animation: fadeIn 1s ease-out forwards;
+		}
+    </style>
+</head>
+
+<body>
+    <header>
+        <div id="logo">CONVERT<span id="logo-s">O.</span></div>
+        <div class="sign">
+            <a onclick="scrollToSlide(1)">Home</a>
+            <a onclick="scrollToSlide(2)">About Us</a>
+            <a onclick="scrollToSlide(3)">Courses</a>
+            <a onclick="scrollToSlide(4)">Exercises</a>
+        </div>
+    </header>
+
+    <div class="slider">
+		<div class="myslide fade first-slide">
+			<div class="welcome-banner">
+				<h1>Effortless Conversion, Endless Possibilities.</h1>
+				<p>We make converting measurements effortless, simplifying the process across different units. 
+				With our dedication to precision and efficiency, we ensure seamless conversions for all students.</p>
+			</div>
+		</div>
+
+
+        <div class="myslide fade creators">
+            <div class="creators">
+                <div class="text-section">
+                    <h2>About the Creators</h2>
+                    <p>Meet the talented individuals behind our platform who strive to provide you with the best conversion experience.</p>
+                </div>
+            </div>
+            <div class="creator-details">
+                <div class="creator">
+                    <img src="Flora.png" alt="Creator 1">
+                    <h1>Mariane Flora</h1>
+                    <p>BS Computer Science</p>
+                    <div class="social-media-icons">
+                        <a href="https://www.facebook.com/mrnnnnn23" target="_blank"><span class="fab fa-facebook"></span></a>
+                        <a href="mailto:mariane.flora783@adamson.edu.ph" target="_blank"><span class="fas fa-envelope"></span></a>
+                        <a href="https://www.instagram.com/mrnnnnnz" target="_blank"><span class="fab fa-instagram"></span></a>
+                    </div>
+                </div>
+                <div class="creator">
+                    <img src="Navarro.jpg" alt="Creator 2">
+                    <h1>Aldrin Navarro</h1>
+                    <p>BS Computer Science</p>
+                    <div class="social-media-icons">
+                        <a href="https://www.facebook.com/aldrinn.borromeo" target="_blank"><span class="fab fa-facebook"></span></a>
+                        <a href="mailto:aldrin.navarro@adamson.edu.ph" target="_blank"><span class="fas fa-envelope"></span></a>
+                        <a href="https://www.instagram.com/drinnss21" target="_blank"><span class="fab fa-instagram"></span></a>
+                    </div>
+                </div>
+
+                <div class="creator">
+                    <img src="Masigan.jpg" alt="Creator 3">
+                    <h1>Thomas Masigan</h1>
+                    <p>BS Computer Science</p>
+                    <div class="social-media-icons">
+                        <a href="https://www.facebook.com/RagingMonkey.12" target="_blank"><span class="fab fa-facebook"></span></a>
+                        <a href="mailto:thomas.masigan@adamson.edu.ph" target="_blank"><span class="fas fa-envelope"></span></a>
+                        <a href="https://instagram.com/thomas.masigan" target="_blank"><span class="fab fa-instagram"></span></a>
+                    </div>
+                </div>
+
+                <div class="creator">
+                    <img src="Salcedo.jpg" alt="Creator 4">
+                    <h1>Anton Salcedo</h1>
+                    <p>BS Computer Science</p>
+                    <div class="social-media-icons">
+                        <a href="https://www.facebook.com/ajsalc.04" target="_blank"><span class="fab fa-facebook"></span></a>
+                        <a href="mailto:youremail@example.com" target="_blank"><span class="fas fa-envelope"></span></a>
+                        <a href="https://instagram.com/antonslcd" target="_blank"><span class="fab fa-instagram"></span></a>
+                    </div>
+                </div>		
+            </div>
+        </div>
+
+        <div class="myslide fade">
+            <div class="converter-options">
+                <div class="converter-option">
+                    <div class="converter-content">
+                        <img src="Metric.png" alt="Metric Converter">
+                        <div class="button-container">
+                            <a href="metric_lesson.html" class="learn-more-button">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="converter-option">
+                    <div class="converter-content">
+                        <img src="English.png" alt="English Converter">
+                        <div class="button-container">
+                            <a href="english_lesson.html" class="learn-more-button">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="converter-option">
+                    <div class="converter-content">
+                        <img src="Number.png" alt="Number Converter">
+                        <div class="button-container">
+                            <a href="number_lesson.html" class="learn-more-button">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="myslide">
+			<div class="start-btn-container">
+			  <h2>General Knowledge</h2>
+			  <p>Test your knowledge across various categories</p>
+			  <button class="start-btn">Start Quiz</button>
+			</div>
+
+			<div class="quiz-container">
+			  <h1>General Knowledge Quiz</h1>
+			  <div class="timer">Time left: 10 seconds</div>
+			  <h2 class="question"></h2>
+			  <div class="options"></div>
+			  <button class="next-btn">Next</button>
+			</div>
+			
+			<div class="quiz-result"></div>
+        </div>
+	</div>
+
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+	<footer>
+        <div>
+            <p>&copy; 2024 Converto. All rights reserved.</p>
+        </div>
+    </footer>
+	
+    <script>
+	let quizData = [
+		  {
+				question: "Convert 200 meters to kilometers.",
+				options: ["0.2 km", "2 km", "20 km", "2000 km"],
+				correct: "0.2 km",
+			},
+			{
+				question: "Convert 500 grams to kilograms.",
+				options: ["0.05 kg", "0.5 kg", "5 kg", "50 kg"],
+				correct: "0.5 kg",
+			},
+			{
+				question: "Convert 100 square meters to square kilometers.",
+				options: ["0.0001 sq km", "0.001 sq km", "0.01 sq km", "1 sq km"],
+				correct: "0.0001 sq km",
+			},
+			{
+				question: "Convert 100 milliliters to liters.",
+				options: ["0.001 l", "0.01 l", "0.1 l", "1 l"],
+				correct: "0.1 l",
+			},
+			{
+				question: "Convert 12 inches to feet.",
+				options: ["1 ft", "1.2 ft", "10 ft", "12 ft"],
+				correct: "1 ft",
+			},
+			{
+				question: "Convert 100 grains to ounces.",
+				options: ["0.00625 oz", "0.0625 oz", "0.625 oz", "6.25 oz"],
+				correct: "0.00625 oz",
+			},
+			{
+				question: "Convert 16 fluid ounces to gallons.",
+				options: ["0.125 gal", "0.25 gal", "1 gal", "2 gal"],
+				correct: "0.125 gal",
+			},
+			{
+				question: "Convert 144 square inches to square feet.",
+				options: ["1 sq ft", "12 sq ft", "24 sq ft", "144 sq ft"],
+				correct: "1 sq ft",
+			},
+			{
+				question: "Convert 20 degrees Celsius to Fahrenheit.",
+				options: ["68 °F", "86 °F", "104 °F", "212 °F"],
+				correct: "68 °F",
+			},
+			{
+				question: "Convert the decimal number 10 to binary.",
+				options: ["1010", "1100", "1111", "10000"],
+				correct: "1010",
+			},
+			
+			{
+				question: "Convert 500 centimeters to meters.",
+				options: ["5 m", "50 m", "5000 m", "50000 m"],
+				correct: "5 m",
+			},
+			{
+				question: "Convert 1000 milligrams to grams.",
+				options: ["0.01 g", "0.1 g", "1 g", "10 g"],
+				correct: "1 g",
+			},
+			{
+				question: "Convert 50 square centimeters to square meters.",
+				options: ["0.0005 sq m", "0.005 sq m", "0.05 sq m", "0.5 sq m"],
+				correct: "0.0005 sq m",
+			},
+			{
+				question: "Convert 200 milliliters to centiliters.",
+				options: ["2 cl", "20 cl", "200 cl", "2000 cl"],
+				correct: "20 cl",
+			},
+			{
+				question: "Convert 36 inches to yards.",
+				options: ["1 yd", "2 yd", "3 yd", "4 yd"],
+				correct: "1 yd",
+			},
+			{
+				question: "Convert 800 grains to pounds.",
+				options: ["0.025 lb", "0.05 lb", "0.1 lb", "0.2 lb"],
+				correct: "0.05 lb",
+			},
+			{
+				question: "Convert 32 fluid ounces to pints.",
+				options: ["1 pt", "2 pt", "3 pt", "4 pt"],
+				correct: "2 pt",
+			},
+			{
+				question: "Convert 144 square feet to square yards.",
+				options: ["16 sq yd", "18 sq yd", "20 sq yd", "24 sq yd"],
+				correct: "16 sq yd",
+			},
+			{
+				question: "Convert 30 degrees Fahrenheit to Celsius.",
+				options: ["-1.11 °C", "-5.56 °C", "-9.99 °C", "-12.22 °C"],
+				correct: "-1.11 °C",
+			},
+			{
+				question: "Convert the decimal number 27 to hexadecimal.",
+				options: ["1B", "1D", "1F", "21"],
+				correct: "1B",
+			},
+			{
+				question: "Convert 300 kilograms to milligrams.",
+				options: ["300000 mg", "3000000 mg", "30000000 mg", "300000000 mg"],
+				correct: "300000000 mg",
+			},
+			{
+				question: "Convert 25 hectares to square kilometers.",
+				options: ["0.0025 sq km", "0.025 sq km", "0.25 sq km", "2.5 sq km"],
+				correct: "0.25 sq km",
+			},
+			{
+				question: "Convert 500 liters to kiloliters.",
+				options: ["0.05 kl", "0.5 kl", "5 kl", "50 kl"],
+				correct: "0.5 kl",
+			},
+			{
+				question: "Convert 5280 feet to miles.",
+				options: ["0.1 mi", "1 mi", "10 mi", "100 mi"],
+				correct: "1 mi",
+			},
+			{
+				question: "Convert 16 ounces to pounds.",
+				options: ["0.5 lb", "1 lb", "1.5 lb", "2 lb"],
+				correct: "1 lb",
+			},
+			{
+				question: "Convert 2 gallons to quarts.",
+				options: ["4 qt", "6 qt", "8 qt", "10 qt"],
+				correct: "8 qt",
+			},
+			{
+				question: "Convert 484 square inches to square feet.",
+				options: ["4 sq ft", "6 sq ft", "8 sq ft", "12 sq ft"],
+				correct: "4 sq ft",
+			},
+			{
+				question: "Convert 1000 Celsius to Fahrenheit.",
+				options: ["212 °F", "392 °F", "572 °F", "752 °F"],
+				correct: "212 °F",
+			},
+			{
+				question: "Convert the binary number 101011 to decimal.",
+				options: ["13", "19", "37", "43"],
+				correct: "43",
+			},
+			{
+				question: "Convert 7 pints to gallons.",
+				options: ["0.25 gal", "0.5 gal", "0.75 gal", "1 gal"],
+				correct: "0.875 gal",
+			},
+			{
+				question: "Convert 1500 grams to kilograms.",
+				options: ["1.5 kg", "15 kg", "150 kg", "1500 kg"],
+				correct: "1.5 kg",
+			},
+			{
+				question: "Convert 5000 square meters to hectares.",
+				options: ["0.5 ha", "5 ha", "50 ha", "500 ha"],
+				correct: "0.5 ha",
+			},
+			{
+				question: "Convert 800 milliliters to liters.",
+				options: ["0.08 L", "0.8 L", "8 L", "80 L"],
+				correct: "0.8 L",
+			},
+			{
+				question: "Convert 10 feet to inches.",
+				options: ["10 in", "100 in", "1000 in", "10000 in"],
+				correct: "120 in",
+			},
+			{
+				question: "Convert 2 tons to pounds.",
+				options: ["4000 lb", "8000 lb", "12000 lb", "16000 lb"],
+				correct: "4000 lb",
+			},
+			{
+				question: "Convert 3 gallons to pints.",
+				options: ["6 pt", "12 pt", "18 pt", "24 pt"],
+				correct: "24 pt",
+			},
+			{
+				question: "Convert 144 square feet to square yards.",
+				options: ["16 sq yd", "24 sq yd", "36 sq yd", "48 sq yd"],
+				correct: "16 sq yd",
+			},
+			{
+				question: "Convert 37°C to Fahrenheit.",
+				options: ["98.6°F", "104°F", "109.4°F", "114.8°F"],
+				correct: "98.6°F",
+			},
+			{
+				question: "Convert the hexadecimal number 2B to decimal.",
+				options: ["41", "42", "43", "44"],
+				correct: "43",
+			},
+			{
+				question: "Convert 250 fluid ounces to gallons.",
+				options: ["0.78 gal", "0.86 gal", "0.94 gal", "1.02 gal"],
+				correct: "1.95 gal",
+			},
+			{
+				question: "Convert 15 acres to square feet.",
+				options: ["653,400 sq ft", "696,960 sq ft", "739,520 sq ft", "782,080 sq ft"],
+				correct: "653,400 sq ft",
+			},
+			{
+				question: "Convert 16 inches to centimeters.",
+				options: ["32 cm", "38 cm", "42 cm", "48 cm"],
+				correct: "40.64 cm",
+			},
+			{
+				question: "Convert 1000 milligrams to grams.",
+				options: ["1 g", "10 g", "100 g", "1000 g"],
+				correct: "1 g",
+			},
+			{
+				question: "Convert 5 square kilometers to square meters.",
+				options: ["50,000 sq m", "500,000 sq m", "5,000,000 sq m", "50,000,000 sq m"],
+				correct: "5,000,000 sq m",
+			},
+			{
+				question: "Convert 12 centiliters to liters.",
+				options: ["0.12 L", "1.2 L", "12 L", "120 L"],
+				correct: "0.12 L",
+			},
+			{
+				question: "Convert 3 miles to kilometers.",
+				options: ["4.8 km", "4.83 km", "4.86 km", "4.89 km"],
+				correct: "4.83 km",
+			},
+			{
+				question: "Convert the binary number 110101 to decimal.",
+				options: ["37", "41", "45", "53"],
+				correct: "53",
+			},
+			{
+				question: "Convert 20 quarts to gallons.",
+				options: ["3.75 gal", "4.25 gal", "4.75 gal", "5.25 gal"],
+				correct: "5 gal",
+			},
+			{
+				question: "Convert 500 square yards to square meters.",
+				options: ["372.32 sq m", "416.16 sq m", "459.99 sq m", "503.82 sq m"],
+				correct: "416.16 sq m",
+			},
+			{
+				question: "Convert -40°C to Fahrenheit.",
+				options: ["-40°F", "-44°F", "-48°F", "-52°F"],
+				correct: "-40°F",
+			}
+		];	
+
+		const quizContainer = document.querySelector(".quiz-container");
+		const question = document.querySelector(".quiz-container .question");
+		const options = document.querySelector(".quiz-container .options");
+		const nextBtn = document.querySelector(".quiz-container .next-btn");
+		const quizResult = document.querySelector(".quiz-result");
+		const startBtnContainer = document.querySelector(".start-btn-container");
+		const startBtn = document.querySelector(".start-btn-container .start-btn");
+
+		let questionNumber = 0;
+		let score = 0;
+		const MAX_QUESTIONS = 5;
+		let timerInterval;
+
+		const shuffleArray = (array) => {
+		  return array.slice().sort(() => Math.random() - 0.5);
+		};
+
+		quizData = shuffleArray(quizData);
+
+		const resetLocalStorage = () => {
+		  for (i = 0; i < MAX_QUESTIONS; i++) {
+			localStorage.removeItem(`userAnswer_${i}`);
+		  }
+		};
+
+		resetLocalStorage();
+
+		const checkAnswer = (e) => {
+		  let userAnswer = e.target.textContent;
+		  if (userAnswer === quizData[questionNumber].correct) {
+			score++;
+			e.target.classList.add("correct");
+		  } else {
+			e.target.classList.add("incorrect");
+		  }
+
+		  localStorage.setItem(`userAnswer_${questionNumber}`, userAnswer);
+
+		  let allOptions = document.querySelectorAll(".quiz-container .option");
+		  allOptions.forEach((o) => {
+			o.classList.add("disabled");
+		  });
+		};
+
+		const createQuestion = () => {
+		  clearInterval(timerInterval);
+
+		  let secondsLeft = 9;
+		  const timerDisplay = document.querySelector(".quiz-container .timer");
+		  timerDisplay.classList.remove("danger");
+
+		  timerDisplay.textContent = `Time Left: 10 seconds`;
+
+		  timerInterval = setInterval(() => {
+			timerDisplay.textContent = `Time Left: ${secondsLeft
+			  .toString()
+			  .padStart(2, "0")} seconds`;
+			secondsLeft--;
+
+			if (secondsLeft < 3) {
+			  timerDisplay.classList.add("danger");
+			}
+
+			if (secondsLeft < 0) {
+			  clearInterval(timerInterval);
+			  displayNextQuestion();
+			}
+		  }, 1000);
+
+		  options.innerHTML = "";
+		  question.innerHTML = `<span class='question-number'>${
+			questionNumber + 1
+		  }/${MAX_QUESTIONS}</span>${quizData[questionNumber].question}`;
+
+		  const shuffledOptions = shuffleArray(quizData[questionNumber].options);
+
+		  shuffledOptions.forEach((o) => {
+			const option = document.createElement("button");
+			option.classList.add("option");
+			option.innerHTML = o;
+			option.addEventListener("click", (e) => {
+			  checkAnswer(e);
+			});
+			options.appendChild(option);
+		  });
+		};
+
+		const retakeQuiz = () => {
+		  questionNumber = 0;
+		  score = 0;
+		  quizData = shuffleArray(quizData);
+		  resetLocalStorage();
+
+		  createQuestion();
+		  quizResult.style.display = "none";
+		  quizContainer.style.display = "block";
+		};
+
+		const displayQuizResult = () => {
+		  quizResult.style.display = "flex";
+		  quizContainer.style.display = "none";
+		  quizResult.innerHTML = "";
+
+		  const resultHeading = document.createElement("h2");
+		  resultHeading.innerHTML = `You have scored ${score} out of ${MAX_QUESTIONS}.`;
+		  quizResult.appendChild(resultHeading);
+
+		  for (let i = 0; i < MAX_QUESTIONS; i++) {
+			const resultItem = document.createElement("div");
+			resultItem.classList.add("question-container");
+
+			const userAnswer = localStorage.getItem(`userAnswer_${i}`);
+			const correctAnswer = quizData[i].correct;
+
+			let answeredCorrectly = userAnswer === correctAnswer;
+
+			if (!answeredCorrectly) {
+			  resultItem.classList.add("incorrect");
+			}
+
+			resultItem.innerHTML = `<div class="question">Question ${i + 1}: ${
+			  quizData[i].question
+			}</div>
+			<div class="user-answer">Your answer: ${userAnswer || "Not Answered"}</div>
+			<div class="correct-answer">Correct answer: ${correctAnswer}</div>`;
+
+			quizResult.appendChild(resultItem);
+		  }
+
+		  const retakeBtn = document.createElement("button");
+		  retakeBtn.classList.add("retake-btn");
+		  retakeBtn.innerHTML = "Retake Quiz";
+		  retakeBtn.addEventListener("click", retakeQuiz);
+		  quizResult.appendChild(retakeBtn);
+		};
+
+		const displayNextQuestion = () => {
+		  if (questionNumber >= MAX_QUESTIONS - 1) {
+			displayQuizResult();
+			return;
+		  }
+
+		  questionNumber++;
+		  createQuestion();
+		};
+
+		nextBtn.addEventListener("click", displayNextQuestion);
+
+		startBtn.addEventListener("click", () => {
+		  startBtnContainer.style.display = "none";
+		  quizContainer.style.display = "block";
+		  createQuestion();
+		});
+
+
+    const myslide = document.querySelectorAll('.myslide'),
+            dot = document.querySelectorAll('.dot');
+        let counter = 1;
+        slidefun(counter);
+
+        function autoSlide() {
+            counter += 1;
+            slidefun(counter);
+        }
+
+        function plusSlides(n) {
+            counter += n;
+            slidefun(counter);
+        }
+
+        function currentSlide(n) {
+            counter = n;
+            slidefun(counter);
+        }
+
+        function scrollToSlide(n) {
+            currentSlide(n);
+            if (n === 1) {
+                myslide[0].scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        function slidefun(n) {
+            let i;
+            for (i = 0; i < myslide.length; i++) {
+                myslide[i].style.display = "none";
+            }
+            for (i = 0; i < dot.length; i++) {
+                dot[i].className = dot[i].className.replace(' active', '');
+            }
+            if (n > myslide.length) {
+                counter = 1;
+            }
+            if (n < 1) {
+                counter = myslide.length;
+            }
+            myslide[counter - 1].style.display = "block";
+        }
+</script>
+
+</body>
+</html>

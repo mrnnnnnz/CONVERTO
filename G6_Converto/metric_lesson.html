@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>   
+    <title>Converto</title>
+    <meta charset="UTF-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        header {
+            height: 80px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        #logo {
+            line-height: 60px;
+            cursor: pointer;
+            font-size: 30px;
+            font-weight: bold;
+            color: #00a7ff; /* blue */
+            text-decoration: none;
+        }
+
+        #logo:hover {
+            color: #eef9ff; /* light blue */
+        }
+
+        #logo-s {
+            color: #eef9ff; /* light blue */
+        }
+
+        #logo:hover #logo-s {
+            color: #00a7ff; /* blue */
+        }
+		
+		.sign {
+            line-height: 60px;
+        }
+
+        .sign button, .sign a {
+            color: #fff;
+            background-color: #00a7ff; /* blue */
+            font-weight: bold;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .sign button:hover, .sign a:hover {
+            background-color: #0077b6; /* dark blue */
+        }
+		
+        .slider {
+            position: relative;
+            width: 100%;
+            background: #0D203B; /* dark blue */
+        }
+        
+        .myslide {
+            height: 750px;
+            display: none;
+            display: flex;
+        }
+
+        .side-text {
+            color: #fff;
+			width: 50%;
+			text-align: justify;
+			margin-top: 9%;
+			margin-left: 8%;
+        }
+
+        .side-text h2 {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        .side-text p {
+            font-size: 20px;
+            line-height: 1.5;
+        }
+		
+        .converter-form-container {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        
+        .converter-form-box {
+			background-color: #fff;
+			border-radius: 10px;
+			padding: 25px;
+			box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+			max-width: 400px;
+			right: 8.5rem;
+			top: 6.5rem; 
+			display: flex;
+			position: absolute;
+			align-items: center;
+			justify-content: center;
+			box-sizing: border-box;
+        }
+        
+        .converter-form {
+            width: 100%;
+        }
+        
+        .converter-form label,
+        .converter-form select,
+        .converter-form input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        .converter-form button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 25px;
+            transition: background-color 0.3s ease;
+            color: #fff;
+            background-color: #00a7ff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .converter-form button:hover {
+            background-color: #0077b6;
+        }
+
+        #result {
+            width: 100%;
+            margin-top: 20px;
+            padding: 20px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        table {
+            width: 100%;
+			margin-top: 20px;
+            border-collapse: collapse;
+            color: #fff;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+			font-size: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #00a7ff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #0D203B;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #0b2e59;
+        }
+		
+		.formula {
+			width: 85%;
+			margin-top: 10%;
+			margin-left: auto;
+			margin-right: auto;
+			border-collapse: separate;
+			border-spacing: 10px; 
+		}
+
+		.formula ul {
+			text-align: justify;
+			padding: 10px;
+			font-size: 18px;
+			line-height: 1.5;
+		}
+
+        footer {
+            background-color: #fff;
+            color: #000;
+            padding: 15px;
+            text-align: center;
+            position: fixed; 
+            width: 100%; 
+            bottom: 0; 
+        }
+
+        footer p {
+            margin: 0; 
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="home.html" id="logo">CONVERT<span id="logo-s">O.</span></a>
+        <div class="sign">
+            <a onclick="scrollToSlide(1)">Lesson</a>
+            <a onclick="scrollToSlide(2)">Formula</a>
+        </div>
+    </header>
+
+    <div class="slider">
+        <div class="myslide">
+            <div class="side-text">
+                <h2>Metric System Converter</h2>
+                <p>The metric system is a decimal-based system of measurement widely used across the globe. 
+				It simplifies conversions between units by employing powers of 10, making calculations and 
+				comparisons straightforward. Its base units include the meter for length, kilogram for mass, 
+				and second for time, forming a coherent and versatile framework for scientific and everyday measurements.</p>
+                <table id="formula"></table>
+            </div>
+            
+            <div class="converter-form-container">
+                <div class="converter-form-box">
+                    <div class="converter-form">
+                        <select id="chooseM" onchange="updateTable()">
+                            <option value="length">Length</option>
+                            <option value="massweight">Mass/Weight</option>
+                            <option value="area">Area</option>
+                            <option value="capacity">Capacity</option>
+                        </select>
+                            
+                        <label for="inputValue">Enter Value:</label>
+                        <input type="number" id="inputValue">
+                            
+                        <label for="inputUnit">From:</label>
+                        <select id="inputUnit">
+                            <option id="iop1" value="cm">Centimeter</option>
+                            <option id="iop2" value="mm">Milimeter</option>
+                            <option id="iop3" value="m">Meter</option>
+                            <option id="iop4" value="km">Kilometer</option>
+                        </select>
+                            
+                        <label for="outputUnit">To:</label>
+                        <select id="outputUnit">
+                            <option id="op1" value="cm">Centimeters</option>
+                            <option id="op2" value="mm">Milimeter</option>
+                            <option id="op3" value="m">Meters</option>
+                            <option id="op4" value="km">Kilometer</option>
+                        </select>
+						
+						<div id="result"></div>
+                        <button onclick="convert()">Convert</button>    
+                    </div>
+                </div>
+            </div>
+        </div>
+		
+		<div class="myslide">
+			<table class="formula">
+					<tr>
+						<th colspan="2">Length</th>
+						<th colspan="2">Mass/Weight</th>
+						<th colspan="2">Area</th>
+						<th colspan="2">Capacity</th>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<ul>
+								<li>cm to mm = cm x 10</li>
+								<li>cm to m = cm / 100</li>
+								<li>cm to km = cm / 10000</li>
+								<li>mm to cm = mm / 10</li>
+								<li>mm to m = mm / 1000</li>
+								<li>mm to km = mm / 1000000</li>
+								<li>m to cm = m x 100</li>
+								<li>m to mm = m x 1000</li>
+								<li>m to km = m / 1000</li>
+								<li>km to cm = m x 100000</li>
+								<li>km to mm = m x 1000000</li>
+								<li>km to m = m x 1000</li>
+							</ul>
+						</td>
+						<td colspan="2">
+							<ul>
+								<li>mg to cg = mg / 10</li>
+								<li>mg to g = mg / 1000</li>
+								<li>mg to kg = mg / 1000000</li>
+								<li>cg to mg = cg x 10</li>
+								<li>cg to g = cg / 100</li>
+								<li>cg to kg = cg / 100000</li>
+								<li>g to mg = g x 1000</li>
+								<li>g to cg = g x 100</li>
+								<li>g to kg = g / 1000</li>
+								<li>kg to mg = kg x 1000000</li>
+								<li>kg to cg = kg x 100000</li>
+								<li>kg to g = kg x 1000</li>
+							</ul>
+
+						</td>
+						<td colspan="2">
+							<ul>
+								<li>sqcm to sqm = sqcm / 10000</li>
+								<li>sqcm to sqkm = sqcm / 10000000000</li>
+								<li>sqcm to ha = sqcm / 100000000</li>
+								<li>sqm to sqcm = sqm x 10000</li>
+								<li>sqm to sqkm = sqm / 1000000</li>
+								<li>sqm to ha = sqm / 10000</li>
+								<li>sqkm to sqcm = sqkm x 10000000000</li>
+								<li>sqkm to sqm = sqkm x 1000000</li>
+								<li>sqkm to ha = sqkm x 100</li>
+								<li>ha to sqcm = ha x 100000000</li>
+								<li>ha to sqm = ha x 10000</li>
+								<li>ha to sqkm = ha / 100</li>
+							</ul>
+						</td>
+						<td colspan="2">
+							<ul>
+								<li>ml to cl = ml / 10</li>
+								<li>ml to l = ml / 1000</li>
+								<li>ml to kl = ml / 1000000</li>
+								<li>cl to ml = cl x 10</li>
+								<li>cl to l = cl / 100</li>
+								<li>cl to kl = cl / 100000</li>
+								<li>l to ml = l x 1000</li>
+								<li>l to cl = l x 100</li>
+								<li>l to kl = l / 1000</li>
+								<li>kl to ml = kl x 1000000</li>
+								<li>kl to cl = kl x 100000</li>
+								<li>kl to l = kl x 1000</li>
+							</ul>
+						</td>
+					</tr>
+			</table>
+			
+		<div class="myslide">
+			<div class="start-btn-container">
+			  <h2>General Knowledge</h2>
+			  <p>Test your knowledge across various categories</p>
+			  <button class="start-btn">Start Quiz</button>
+			</div>
+
+			<div class="quiz-container">
+			  <h1>General Knowledge Quiz</h1>
+			  <div class="timer">Time left: 10 seconds</div>
+			  <h2 class="question"></h2>
+			  <div class="options"></div>
+			  <button class="next-btn">Next</button>
+			</div>
+			
+			<div class="quiz-result"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div>
+            <p>&copy; 2024 Converto. All rights reserved.</p>
+        </div>
+    </footer>
+    
+<script>
+	 const myslide = document.querySelectorAll('.myslide');
+    let counter = 1;
+    slidefun(counter);
+
+    function autoSlide() {
+        counter += 1;
+        slidefun(counter);
+    }
+
+    function plusSlides(n) {
+        counter += n;
+        slidefun(counter);
+    }
+
+    function currentSlide(n) {
+        counter = n;
+        slidefun(counter);
+    }
+
+    function scrollToSlide(n) {
+        currentSlide(n);
+        if (n === 1) {
+            myslide[0].scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+    }
+
+    function slidefun(n) {
+        let i;
+        for (i = 0; i < myslide.length; i++) {
+            myslide[i].style.display = "none";
+        }
+        myslide[counter - 1].style.display = "block";
+    }
+		
+	var selectElement = document.getElementById('chooseM');
+	selectElement.addEventListener('change', function() {
+		var choice = this.value;
+		switch (choice){
+			case "length":
+				document.getElementById('op1').value="cm";
+				document.getElementById('op1').innerHTML="Centimeter";
+				document.getElementById('op2').value="mm";
+				document.getElementById('op2').innerHTML="Millimeter";
+				document.getElementById('op3').value="m";
+				document.getElementById('op3').innerHTML="Meter";
+				document.getElementById('op4').value="km";
+				document.getElementById('op4').innerHTML="Kilometer";
+				document.getElementById('iop1').value="cm";
+				document.getElementById('iop1').innerHTML="Centimeter";
+				document.getElementById('iop2').value="mm";
+				document.getElementById('iop2').innerHTML="Millimeter";
+				document.getElementById('iop3').value="m";
+				document.getElementById('iop3').innerHTML="Meter";
+				document.getElementById('iop4').value="km";
+				document.getElementById('iop4').innerHTML="Kilometer";
+				break;
+				break;
+			case "massweight":
+				document.getElementById('op1').value="mg";
+				document.getElementById('op1').innerHTML="Milligram";
+				document.getElementById('op2').value="cg";
+				document.getElementById('op2').innerHTML="Centigram";
+				document.getElementById('op3').value="g";
+				document.getElementById('op3').innerHTML="Gram";
+				document.getElementById('op4').value="kg";
+				document.getElementById('op4').innerHTML="Kilogram";
+				document.getElementById('iop1').value="mg";
+				document.getElementById('iop1').innerHTML="Milligram";
+				document.getElementById('iop2').value="cg";
+				document.getElementById('iop2').innerHTML="Centigram";
+				document.getElementById('iop3').value="g";
+				document.getElementById('iop3').innerHTML="Gram";
+				document.getElementById('iop4').value="kg";
+				document.getElementById('iop4').innerHTML="Kilogram";
+				break;
+			case "area":
+				document.getElementById('op1').value="sqcm";
+				document.getElementById('op1').innerHTML="Square Centimeter";
+				document.getElementById('op2').value="sqm";
+				document.getElementById('op2').innerHTML="Square Meter";
+				document.getElementById('op3').value="sqkm";
+				document.getElementById('op3').innerHTML="Square Kilometer";
+				document.getElementById('op4').value="ha";
+				document.getElementById('op4').innerHTML="Hectare";
+				document.getElementById('iop1').value="sqcm";
+				document.getElementById('iop1').innerHTML="Square Centimeter";
+				document.getElementById('iop2').value="sqm";
+				document.getElementById('iop2').innerHTML="Square Meter";
+				document.getElementById('iop3').value="sqkm";
+				document.getElementById('iop3').innerHTML="Square Kilometer";
+				document.getElementById('iop4').value="ha";
+				document.getElementById('iop4').innerHTML="Hectare";
+				break;
+			case "capacity":
+				document.getElementById('op1').value="ml";
+				document.getElementById('op1').innerHTML="Milliliter";
+				document.getElementById('op2').value="cl";
+				document.getElementById('op2').innerHTML="Centiliter";
+				document.getElementById('op3').value="l";
+				document.getElementById('op3').innerHTML="Liter";
+				document.getElementById('op4').value="kl";
+				document.getElementById('op4').innerHTML="Kiloliter";
+				document.getElementById('iop1').value="ml";
+				document.getElementById('iop1').innerHTML="Milliliter";
+				document.getElementById('iop2').value="cl";
+				document.getElementById('iop2').innerHTML="Centiliter";
+				document.getElementById('iop3').value="l";
+				document.getElementById('iop3').innerHTML="Liter";
+				document.getElementById('iop4').value="kl";
+				document.getElementById('iop4').innerHTML="Kilometer";
+				break;
+		}
+	});
+
+	function setOptions(id, value, text) {
+		var option = document.getElementById(id);
+		option.value = value;
+		option.innerHTML = text;
+	}
+
+
+				
+	function convert() {
+		var inputValue = parseFloat(document.getElementById("inputValue").value);
+		var inputUnit = document.getElementById("inputUnit").value;
+		var outputUnit = document.getElementById("outputUnit").value;
+		var result;
+
+		if (inputUnit === outputUnit) {
+			result = "Please select different units.";
+		} else {
+			switch (inputUnit) {
+				case "cm":
+					if (outputUnit === "mm") {
+						result = inputValue + " Centimeters is " + (inputValue * 10) + " Millimeters";
+					} else if (outputUnit === "m") {
+						result = inputValue + " Centimeters is " + (inputValue / 100) + " Meters";
+					} else if (outputUnit === "km") {
+						result = inputValue + " Centimeters is " + (inputValue / 10000) + " Kilometers";
+					}
+					break;
+				case "mm":
+					if (outputUnit === "cm") {
+						result = inputValue + " Milimeters is " + (inputValue * 0.1) + " Centimeters";
+					} else if (outputUnit === "m") {
+						result = inputValue + " Millimeters is " + (inputValue * 0.001) + " Meters";
+					} else if (outputUnit === "km") {
+						result = inputValue + " Millimeters is " + (inputValue * 0.000001) + " Kilometers";
+					}
+					break;
+				case "m":
+					if (outputUnit === "cm") {
+						result = inputValue + " Meters is " + (inputValue * 100) + " Centimeters";
+					} else if (outputUnit === "mm") {
+						result = inputValue + " Meters is " + (inputValue * 1000) + " Millimeters";
+					} else if (outputUnit === "km") {
+						result = inputValue + " Meters is " + (inputValue / 1000) + " Kilometers";
+					}
+					break;
+				case "km":
+					if (outputUnit === "cm") {
+						result = inputValue + " Kilometers is " + (inputValue * 100000) + " Centimeters";
+					} else if (outputUnit === "mm") {
+						result = inputValue + " Kilometers is " + (inputValue * 1000000) + " Millimeters";
+					} else if (outputUnit === "m") {
+						result = inputValue + " Kilometers is " + (inputValue * 1000) + " Meters";
+					}
+					break;
+				case "mg":
+					if (outputUnit === "cg") {
+						result = inputValue + " Milligrams is " + (inputValue * 0.1) + " Centigrams";
+					} else if (outputUnit === "g") {
+						result = inputValue + " Milligrams is " + (inputValue * 0.001) + " Grams";
+					} else if (outputUnit === "kg") {
+						result = inputValue + " Milligrams is " + (inputValue * 0.000001) + " Kilograms";
+					}
+					break;
+				case "cg":
+					if (outputUnit === "mg") {
+						result = inputValue + " Centigrams is " + (inputValue * 10) + " Milligrams";
+					} else if (outputUnit === "g") {
+						result = inputValue + " Centigrams is " + (inputValue * 0.01) + " Grams";
+					} else if (outputUnit === "kg") {
+						result = inputValue + " Centigrams is " + (inputValue * 0.00001) + " Kilograms";
+					}
+					break;
+				case "g":
+					if (outputUnit === "mg") {
+						result = inputValue + " Grams is " + (inputValue * 1000) + " Milligrams";
+					} else if (outputUnit === "cg") {
+						result = inputValue + " Grams is " + (inputValue * 100) + " Centigrams";
+					} else if (outputUnit === "kg") {
+						result = inputValue + " Grams is " + (inputValue * 0.001) + " Kilograms";
+					}
+					break;
+				case "kg":
+					if (outputUnit === "mg") {
+						result = inputValue + " Kilograms is " + (inputValue * 1000000) + " Milligrams";
+					} else if (outputUnit === "cg") {
+						result = inputValue + " Kilograms is " + (inputValue * 100000) + " Centigrams";
+					} else if (outputUnit === "g") {
+						result = inputValue + " Kilograms is " + (inputValue * 1000) + " Grams";
+					}
+					break;
+				case "sqcm":
+					if (outputUnit === "sqm") {
+						result = inputValue + " Square Centimeters is " + (inputValue * 0.0001) + " Square Meters";
+					} else if (outputUnit === "sqkm") {
+						result = inputValue + " Square Centimeters is " + (inputValue * 0.0000000001) + " Square Kilometers";
+					} else if (outputUnit === "ha") {
+						result = inputValue + " Square Centimeters is " + (inputValue * 0.00000001) + " Hectares";
+					}
+					break;
+				case "sqm":
+					if (outputUnit === "sqcm") {
+						result = inputValue + " Square Meters is " + (inputValue * 10000) + " Square Centimeters";
+					} else if (outputUnit === "sqkm") {
+						result = inputValue + " Square Meters is " + (inputValue * 0.000001) + " Square Kilometers";
+					} else if (outputUnit === "ha") {
+						result = inputValue + " Square Meters is " + (inputValue * 0.0001) + " Hectares";
+					}
+					break;
+				case "sqkm":
+					if (outputUnit === "sqcm") {
+						result = inputValue + " Square Kilometers is " + (inputValue * 10000000000) + " Square Centimeters";
+					} else if (outputUnit === "sqm") {
+						result = inputValue + " Square Kilometers is " + (inputValue * 1000000) + " Square Meters";
+					} else if (outputUnit === "ha") {
+						result = inputValue + " Square Kilometers is " + (inputValue * 100) + " Hectares";
+					}
+					break;
+				case "ha":
+					if (outputUnit === "sqcm") {
+						result = inputValue + " Hectares is " + (inputValue * 100000000) + " Square Centimeters";
+					} else if (outputUnit === "sqm") {
+						result = inputValue + " Hectares is " + (inputValue * 10000) + " Square Meters";
+					} else if (outputUnit === "sqkm") {
+						result = inputValue + " Hectares is " + (inputValue * 0.01) + " Square Kilometers";
+					}
+					break;
+				case "ml":
+					if (outputUnit === "cl") {
+						result = inputValue + " Milliliters is " + (inputValue * 0.1) + " Centiliters";
+					} else if (outputUnit === "l") {
+						result = inputValue + " Milliliters is " + (inputValue * 0.001) + " Liters";
+					} else if (outputUnit === "kl") {
+						result = inputValue + " Milliliters is " + (inputValue * 0.000001) + " Kiloliters";
+					}
+					break;
+				case "cl":
+					if (outputUnit === "ml") {
+						result = inputValue + " Centiliters is " + (inputValue * 10) + " Milliliters";
+					} else if (outputUnit === "l") {
+						result = inputValue + " Centiliters is " + (inputValue * 0.01) + " Liters";
+					} else if (outputUnit === "kl") {
+						result = inputValue + " Centiliters is " + (inputValue * 0.00001) + " Kiloliters";
+					}
+					break;
+				case "l":
+					if (outputUnit === "ml") {
+						result = inputValue + " Liters is " + (inputValue * 1000) + " Milliliters";
+					} else if (outputUnit === "cl") {
+						result = inputValue + " Liters is " + (inputValue * 100) + " Centiliters";
+					} else if (outputUnit === "kl") {
+						result = inputValue + " Liters is " + (inputValue * 0.001) + " Kiloliters";
+					}
+					break;
+				case "kl":
+					if (outputUnit === "ml") {
+						result = inputValue + " Kiloliters is " + (inputValue * 1000000) + " Milliliters";
+					} else if (outputUnit === "cl") {
+						result = inputValue + " Kiloliters is " + (inputValue * 100000) + " Centiliters";
+					} else if (outputUnit === "l") {
+						result = inputValue + " Kiloliters is " + (inputValue * 1000) + " Liters";
+					}
+					break;
+				default:
+					result = "Invalid input.";
+			}
+		}
+		document.getElementById("result").innerHTML = result;
+	}
+	
+	    function updateTable() {
+        const formulaTable = document.getElementById('formula');
+        const selectedMeasurement = document.getElementById('chooseM').value;
+
+        let tableContent = '';
+
+        switch (selectedMeasurement) {
+            case 'length':
+                tableContent = `
+                    <thead>
+                        <tr>
+                            <th>Unit</th>
+                            <th>Symbol</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Centimeter</td>
+                            <td>cm</td>
+                        </tr>
+                        <tr>
+                            <td>Millimeter</td>
+                            <td>mm</td>
+                        </tr>
+						<tr>
+                            <td>Meter</td>
+                            <td>m</td>
+                        </tr>
+                        <tr>
+                            <td>Kilometer</td>
+                            <td>km</td>
+                        </tr> 
+                    </tbody>
+                `;
+                break;
+            case 'massweight':
+                tableContent = `
+                    <thead>
+                        <tr>
+                            <th>Unit</th>
+                            <th>Symbol</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Milligram</td>
+                            <td>mg</td>
+                        </tr>
+						<tr>
+                            <td>Centigram</td>
+                            <td>cg</td>
+                        </tr>
+						<tr>
+                            <td>Gram</td>
+                            <td>g</td>
+                        </tr>
+						<tr>
+                            <td>Kilogram</td>
+                            <td>kg</td>
+                        </tr>
+                    </tbody>
+                `;
+                break;
+            case 'area':
+                tableContent = `
+                    <thead>
+                        <tr>
+                            <th>Unit</th>
+                            <th>Symbol</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Square Centimeter</td>
+                            <td>sqcm</td>
+                        </tr>
+						<tr>
+                            <td>Square Meter</td>
+                            <td>sqm</td>
+                        </tr>                        
+						<tr>
+                            <td>Square Kilometer</td>
+                            <td>sqkm</td>
+                        </tr>
+                        <tr>
+                            <td>Hectare</td>
+                            <td>ha</td>
+                        </tr>
+                    </tbody>
+                `;
+                break;
+            case 'capacity':
+                tableContent = `
+                    <thead>
+                        <tr>
+                            <th>Unit</th>
+                            <th>Symbol</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+						<tr>
+                            <td>Milliliter</td>
+                            <td>ml</td>
+                        </tr>
+                        <tr>
+                            <td>Centiliter</td>
+                            <td>cl</td>
+                        </tr>                        
+						<tr>
+                            <td>Liter</td>
+                            <td>l</td>
+                        </tr>  
+                        <tr>
+                            <td>Kiloliter</td>
+                            <td>kl</td>
+                        </tr>
+                    </tbody>
+                `;
+                break;
+        }
+        formulaTable.innerHTML = tableContent;
+    }
+    updateTable();
+</script>
+</body>
+</html>

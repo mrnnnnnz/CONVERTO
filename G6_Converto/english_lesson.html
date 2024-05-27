@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Converto</title>
+    <meta charset="UTF-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        header {
+            height: 80px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        #logo {
+            line-height: 60px;
+            cursor: pointer;
+            font-size: 30px;
+            font-weight: bold;
+            color: #00a7ff; /* blue */
+            text-decoration: none;
+        }
+
+        #logo:hover {
+            color: #eef9ff; /* light blue */
+        }
+
+        #logo-s {
+            color: #eef9ff; /* light blue */
+        }
+
+        #logo:hover #logo-s {
+            color: #00a7ff; /* blue */
+        }
+		
+		.sign {
+            line-height: 60px;
+        }
+
+        .sign button, .sign a {
+            color: #fff;
+            background-color: #00a7ff; /* blue */
+            font-weight: bold;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .sign button:hover, .sign a:hover {
+            background-color: #0077b6; /* dark blue */
+        }
+
+        .slider {
+            position: relative;
+            width: 100%;
+            background: #0D203B; /* dark blue */
+        }
+
+        .myslide {
+            height: 750px;
+            display: none;
+            display: flex;
+        }
+
+        .side-text {
+            color: #fff;
+			width: 50%;
+			text-align: justify;
+			margin-top: 9%;
+			margin-left: 8%;
+        }
+
+        .side-text h2 {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        .side-text p {
+            font-size: 20px;
+            line-height: 1.5;
+        }
+
+        .converter-form-container {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .converter-form-box {
+			background-color: #fff;
+			border-radius: 10px;
+			padding: 25px;
+			box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+			max-width: 400px;
+			right: 8.5rem;
+			top: 7rem;
+			display: flex;
+			position: absolute;
+			align-items: center;
+			justify-content: center;
+			box-sizing: border-box;
+        }
+
+        .converter-form {
+            width: 100%;
+        }
+
+        .converter-form label,
+        .converter-form select,
+        .converter-form input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        .converter-form button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 25px;
+            transition: background-color 0.3s ease;
+            color: #fff;
+            background-color: #00a7ff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .converter-form button:hover {
+            background-color: #0077b6;
+        }
+
+        #result {
+            width: 100%;
+            margin-top: 20px;
+            padding: 20px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+			margin-top: 20px;
+            border-collapse: collapse;
+            color: #fff;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+			font-size: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #00a7ff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #0D203B;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #0b2e59;
+        }
+		
+		.formula {
+			width:95%;
+			margin-top: 6%;
+			margin-left: auto;
+			margin-right: auto;
+			border-collapse: separate;
+			border-spacing: 5px; 
+		}
+
+		.formula ul {
+			text-align: justify;
+			padding: 10px;
+			font-size: 15px;
+			line-height: 1.5;
+		}
+
+        footer {
+            background-color: #fff;
+            color: #000;
+            padding: 15px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <a href="home.html" id="logo">CONVERT<span id="logo-s">O.</span></a>
+        <div class="sign">
+            <a onclick="scrollToSlide(1)">Lesson</a>
+            <a onclick="scrollToSlide(2)">Formula</a>
+        </div>
+    </header>
+
+    <div class="slider">
+        <div class="myslide">
+			<div class="side-text">
+				<h2>English System Converter</h2>
+				<p>The English system, also known as the Imperial system, uses the foot (12 inches) as the main unit of length and the pound (16 ounces) as the primary unit of weight.
+				Despite the UK's shift to the metric system, the Imperial system is still used for specific purposes such as personal measurements and road distances.</p>
+				<table id="formula"></table>
+			</div>
+
+			<div class="converter-form-container">
+                <div class="converter-form-box">
+                    <div class="converter-form">
+                        <select id="chooseM" onchange="updateTable()">
+
+                            <option value="length">Length</option>
+                            <option value="massweight">Mass/Weight</option>
+							<option value="volume">Volume</option>
+                            <option value="area">Area</option>
+							<option value="temperature">Temperature</option>
+                        </select>
+
+                        <label for="inputValue">Enter Value:</label>
+                        <input type="number" id="inputValue">
+
+                        <label for="inputUnit">From:</label>
+                        <select id="inputUnit">
+                            <option id="iop1" value="in">Inch </option>
+                            <option id="iop2" value="ft">Feet</option>
+                            <option id="iop3" value="yd">Yard</option>
+                            <option id="iop4" value="mi">Mile</option>
+                        </select>
+
+                        <label for="outputUnit">To:</label>
+                        <select id="outputUnit">
+                            <option id="iop1" value="in">Inch </option>
+                            <option id="iop2" value="ft">Feet</option>
+                            <option id="iop3" value="yd">Yard</option>
+                            <option id="iop4" value="mi">Mile</option>
+                        </select>
+
+						<div id="result"></div>
+                        <button onclick="convert()">Convert</button>
+                    </div>
+                </div>
+            </div>
+		</div>
+		
+		<div class="myslide">
+				<table class="formula">
+					<tr>
+						<th colspan="2">Length</th>
+						<th colspan="2">Mass/Weight</th>
+						<th colspan="2">Volume</th>
+						<th colspan="2">Area</th>
+						<th colspan="2">Temperature</th>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<ul>
+								<li>in to ft = in / 12</li>
+								<li>in to yd = in / 36</li>
+								<li>in to mi = in / 63360</li>
+								<li>ft to in = ft x 12</li>
+								<li>ft to yd = ft / 3</li>
+								<li>ft to mi = ft / 5280</li>
+								<li>yd to in = yd x 36</li>
+								<li>yd to ft = yd x 3</li>
+								<li>yd to mi = yd / 1760</li>
+								<li>mi to in = mi x 63360</li>
+								<li>mi to ft = mi x 5280</li>
+								<li>mi to yd = mi x 1760</li>
+							</ul>
+						</td>
+						<td colspan="2">
+							<ul>
+								<li>gr to oz = gr / 437.5</li>
+								<li>gr to lb = gr / 7000</li>
+								<li>gr to st = gr / 98000</li>
+								<li>gr to ton = gr / 1.568e+7</li>
+								<li>oz to gr = oz x 437.5</li>
+								<li>oz to lb = oz / 16</li>
+								<li>oz to st = oz / 224</li>
+								<li>oz to ton = oz / 35840</li>
+								<li>lb to gr = lb x 7000</li>
+								<li>lb to oz = lb x 16</li>
+								<li>lb to st = lb / 14</li>
+								<li>lb to ton = lb / 2240</li>
+								<li>st to gr = st x 98000</li>
+								<li>st to oz = st x 224</li>
+								<li>st to lb = st x 14</li>
+								<li>st to ton = st / 160</li>
+								<li>ton to gr = ton x 1.568e+7</li>
+								<li>ton to oz = ton x 35840</li>
+								<li>ton to lb = ton x 2240</li>
+								<li>ton to st = ton x 160</li>
+							</ul>
+						</td>
+						<td colspan="2">
+							<ul>
+								<li>fl oz to gi = fl oz / 5</li>
+								<li>fl oz to pt = fl oz / 20</li>
+								<li>fl oz to qt = fl oz / 40</li>
+								<li>fl oz to gal = fl oz / 160</li>
+								<li>gi to fl oz = gi x 5</li>
+								<li>gi to pt = gi / 4</li>
+								<li>gi to qt = gi / 8</li>
+								<li>gi to gal = gi / 32</li>
+								<li>pt to fl oz = pt x 20</li>
+								<li>pt to gi = pt x 4</li>
+								<li>pt to qt = pt / 2</li>
+								<li>pt to gal = pt / 8</li>
+								<li>qt to fl oz = qt x 32</li>
+								<li>qt to gi = qt x 8</li>
+								<li>qt to pt = qt x 2</li>
+								<li>qt to gal = qt / 4</li>
+								<li>gal to fl oz = gal x 160</li>
+								<li>gal to gi = gal x 32</li>
+								<li>gal to pt = gal x 8</li>
+								<li>gal to qt = gal x 4</li>
+							</ul>
+						</td>
+						<td colspan="2">
+							<ul>
+								<li>sq in to sq ft = sq in / 144</li>
+								<li>sq in to sq yd = sq in / 1296</li>
+								<li>sq in to acre = sq in / 6.273e+6</li>
+								<li>sq ft to sq in = sq ft x 144</li>
+								<li>sq ft to sq yd = sq ft / 9</li>
+								<li>sq ft to acre = sq ft / 43560</li>
+								<li>sq yd to sq in = sq yd x 1296</li>
+								<li>sq yd to sq ft = sq yd x 9</li>
+								<li>sq yd to acre = sq / 4840</li>
+								<li>acre to sq in = acre x 6.273e+6</li>
+								<li>acre to sq ft = acre x 43560</li>
+								<li>acre to sq yd = acre x 4840</li>
+							</ul>
+						</td>
+						<td colspan="2">
+							<ul>
+								<li>C to F = (C × 9/5) + 32</li>
+								<li>C to K = C + 273.15</li>
+								<li>F to C = (F − 32) × 5/9</li>
+								<li>F to K = (F − 32) × 5/9 + 273.15</li>
+								<li>K to C = K − 273.15</li>
+								<li>K to F = (K − 273.15) × 9/5 + 32</li>
+							</ul>
+						</td>
+					</tr>
+				</table>
+			</div>
+    </div>
+
+    <footer>
+        <div>
+            <p>&copy; 2024 Converto. All rights reserved.</p>
+        </div>
+    </footer>
+
+<script>
+	 const myslide = document.querySelectorAll('.myslide');
+    let counter = 1;
+    slidefun(counter);
+
+    function autoSlide() {
+        counter += 1;
+        slidefun(counter);
+    }
+
+    function plusSlides(n) {
+        counter += n;
+        slidefun(counter);
+    }
+
+    function currentSlide(n) {
+        counter = n;
+        slidefun(counter);
+    }
+
+    function scrollToSlide(n) {
+        currentSlide(n);
+        if (n === 1) {
+            myslide[0].scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+    }
+
+    function slidefun(n) {
+        let i;
+        for (i = 0; i < myslide.length; i++) {
+            myslide[i].style.display = "none";
+        }
+        myslide[counter - 1].style.display = "block";
+    }
+		
+	var selectElement = document.getElementById('chooseM');
+	var inputselect = document.getElementById('inputUnit');
+	var outputselect = document.getElementById('outputUnit');
+	selectElement.addEventListener('change', function() {
+		var choice = this.value;
+		switch (choice){
+			case "length":
+			var i, L = inputselect.options.length - 1;
+    			for(i = L; i >= 0; i--) {
+        			inputselect.remove(i);
+  				}
+			var I, l = outputselect.options.length - 1;
+    			for(I = l; I >= 0; I--) {
+        			outputselect.remove(I);
+  				}
+            let lengthopt1 = document.createElement("option");
+				lengthopt1.textContent = "Inch";
+				lengthopt1.value = "in";
+			let lengthiopt1 = document.createElement("option");
+				lengthiopt1.textContent = "Inch";
+				lengthiopt1.value = "in";
+				inputselect.add(lengthopt1);
+				outputselect.add(lengthiopt1);
+            let lengthopt2 = document.createElement("option");
+				lengthopt2.textContent = "Feet";
+				lengthopt2.value = "ft";
+			let lengthiopt2 = document.createElement("option");
+				lengthiopt2.textContent = "Feet";
+				lengthiopt2.value = "ft";
+				inputselect.add(lengthopt2);
+				outputselect.add(lengthiopt2);
+            let lengthopt3 = document.createElement("option");
+				lengthopt3.textContent = "Yard";
+				lengthopt3.value = "yd";
+			let lengthiopt3 = document.createElement("option");
+				lengthiopt3.textContent = "Yard";
+				lengthiopt3.value = "yd";
+				inputselect.add(lengthopt3);
+				outputselect.add(lengthiopt3);
+            let lengthopt4 = document.createElement("option");
+				lengthopt4.textContent = "Mile";
+				lengthopt4.value = "mi";
+			let lengthiopt4 = document.createElement("option");
+				lengthiopt4.textContent = "Mile";
+				lengthiopt4.value = "mi";
+				inputselect.add(lengthopt4);
+				outputselect.add(lengthiopt4);
+            break;
+		case "massweight":
+			var i, L = inputselect.options.length - 1;
+    			for(i = L; i >= 0; i--) {
+        			inputselect.remove(i);
+  				}
+			var I, l = outputselect.options.length - 1;
+    			for(I = l; I >= 0; I--) {
+        			outputselect.remove(I);
+  				}
+			let massopt1 = document.createElement("option");
+				massopt1.textContent = "Grain";
+				massopt1.value = "gr";
+			let imassopt1 = document.createElement("option");
+				imassopt1.textContent = "Grain";
+				imassopt1.value = "gr";
+				inputselect.add(massopt1);
+				outputselect.add(imassopt1);
+			let massopt2 = document.createElement("option")
+				massopt2.textContent = "Ounce";
+				massopt2.value = "oz";
+			let imassopt2 = document.createElement("option")
+				imassopt2.textContent = "Ounce";
+				imassopt2.value = "oz";
+				inputselect.add(massopt2);
+				outputselect.add(imassopt2);
+			let massopt3 = document.createElement("option");
+				massopt3.textContent = "Pound";
+				massopt3.value = "lb";
+			let imassopt3 = document.createElement("option");
+				imassopt3.textContent = "Pound";
+				imassopt3.value = "lb";
+				inputselect.add(massopt3);
+				outputselect.add(imassopt3);
+			let massopt4 = document.createElement("option");
+				massopt4.textContent = "Stone";
+				massopt4.value = "st";
+			let imassopt4 = document.createElement("option");
+				imassopt4.textContent = "Stone";
+				imassopt4.value = "st";
+				inputselect.add(massopt4);
+				outputselect.add(imassopt4);
+			let massopt5 = document.createElement("option");
+				massopt5.textContent = "Ton";
+				massopt5.value = "ton";
+			let imassopt5 = document.createElement("option");
+				imassopt5.textContent = "Ton";
+				imassopt5.value = "ton";
+				inputselect.add(massopt5);
+				outputselect.add(imassopt5);
+			break;
+		case "volume":
+			var i, L = inputselect.options.length - 1;
+    			for(i = L; i >= 0; i--) {
+        			inputselect.remove(i);
+  				}
+			var I, l = outputselect.options.length - 1;
+    			for(I = l; I >= 0; I--) {
+        			outputselect.remove(I);
+  				}
+			let volopt1 = document.createElement("option");
+				volopt1.textContent = "Fluid Ounce";
+				volopt1.value = "fl_oz";
+			let ivolopt1 = document.createElement("option");
+				ivolopt1.textContent = "Fluid Ounce";
+				ivolopt1.value = "fl_oz";
+				inputselect.add(volopt1);
+				outputselect.add(ivolopt1);
+			let volopt2 = document.createElement("option");
+				volopt2.textContent = "Gill";
+				volopt2.value = "gi";
+			let ivolopt2 = document.createElement("option");
+				ivolopt2.textContent = "Gill";
+				ivolopt2.value = "gi";
+				inputselect.add(volopt2);
+				outputselect.add(ivolopt2);
+			let volopt3 = document.createElement("option");
+				volopt3.textContent = "Pint";
+				volopt3.value = "pt";
+			let ivolopt3 = document.createElement("option");
+				ivolopt3.textContent = "Pint";
+				ivolopt3.value = "pt";
+				inputselect.add(volopt3);
+				outputselect.add(ivolopt3);
+			let volopt4 = document.createElement("option");
+				volopt4.text = "Quart";
+				volopt4.value = "qt";
+			let ivolopt4 = document.createElement("option");
+				ivolopt4.text = "Quart";
+				ivolopt4.value = "qt";
+				inputselect.add(volopt4);
+			outputselect.add(ivolopt4);
+			let volopt5 = document.createElement("option");
+				volopt5.text="Gallon";
+				volopt5.value = "gal";
+			let ivolopt5 = document.createElement("option");
+				ivolopt5.text="Gallon";
+				ivolopt5.value = "gal";
+				inputselect.add(volopt5);
+				outputselect.add(ivolopt5);
+			break;
+		case "area":
+			var i, L = inputselect.options.length - 1;
+    			for(i = L; i >= 0; i--) {
+        			inputselect.remove(i);
+  				}
+			var I, l = outputselect.options.length - 1;
+    			for(I = l; I >= 0; I--) {
+        			outputselect.remove(I);
+  				}
+			let areavol1 = document.createElement("option");
+				areavol1.textContent = "Square Inch";
+				areavol1.value = "sq in";
+			let iareavol1 = document.createElement("option");
+				iareavol1.textContent = "Square Inch";
+				iareavol1.value = "sq in";
+				inputselect.add(areavol1);
+				outputselect.add(iareavol1);
+			let areavol2 = document.createElement("option");
+				areavol2.textContent = "Square Feet";
+				areavol2.value = "sq ft";
+			let iareavol2 = document.createElement("option");
+				iareavol2.textContent = "Square Feet";
+				iareavol2.value = "sq ft";
+				inputselect.add(areavol2);
+				outputselect.add(iareavol2);
+			let areavol3 = document.createElement("option");
+				areavol3.textContent = "Square Yard";
+				areavol3.value = "sq yd";
+			let iareavol3 = document.createElement("option");
+				iareavol3.textContent = "Square Yard";
+				iareavol3.value = "sq yd";
+				inputselect.add(areavol3);
+				outputselect.add(iareavol3);
+			let areavol4 = document.createElement("option");
+				areavol4.textContent = "Acre";
+				areavol4.value ="acre";
+			let iareavol4 = document.createElement("option");
+				iareavol4.textContent = "Acre";
+				iareavol4.value ="acre";
+				inputselect.add(areavol4);
+				outputselect.add(iareavol4);
+			break;
+		case "temperature":
+			var i, L = inputselect.options.length - 1;
+    			for(i = L; i >= 0; i--) {
+        			inputselect.remove(i);
+  				}
+			var I, l = outputselect.options.length - 1;
+    			for(I = l; I >= 0; I--) {
+        			outputselect.remove(I);
+  				}
+			let tempC = document.createElement("option");
+				tempC.textContent = "Celsius";
+				tempC.value = "C";
+			let itempC = document.createElement("option");
+				itempC.textContent = "Celsius";
+				itempC.value = "C";
+				inputselect.add(tempC);
+				outputselect.add(itempC);
+
+			let tempF = document.createElement("option");
+				tempF.textContent = "Fahrenheit";
+				tempF.value = "F";
+			let itempF = document.createElement("option");
+				itempF.textContent = "Fahrenheit";
+				itempF.value = "F";
+				inputselect.add(tempF);
+				outputselect.add(itempF);
+
+			let tempK = document.createElement("option");
+				tempK.textContent = "Kelvin";
+				tempK.value = "K";
+			let itempK = document.createElement("option");
+				itempK.textContent = "Kelvin";
+				itempK.value = "K";
+				inputselect.add(tempK);
+				outputselect.add(itempK);
+			break;
+
+		}
+	});
+
+
+		function convert() {
+		var inputValue = parseFloat(document.getElementById("inputValue").value);
+		var inputUnit = document.getElementById("inputUnit").value;
+		var outputUnit = document.getElementById("outputUnit").value;
+		var result;
+
+			if (inputUnit === outputUnit) {
+			  result = "Please select different units.";
+			} else {
+				switch (inputUnit) {
+				// Length Conversion
+				case "in":
+					if (outputUnit === "ft") {
+						result = inputValue + " Inches is " + (inputValue / 12) + " Feet";
+					} else if (outputUnit === "yd") {
+						result = inputValue + " Inches is " + (inputValue / 36) + " Yards";
+					} else if (outputUnit === "mi") {
+						result = inputValue + " Inches is " + (inputValue / 63360) + " Miles";
+					}
+					break;
+				case "ft":
+					if (outputUnit === "in") {
+						result = inputValue + " Feet is " + (inputValue * 12) + " Inches";
+					} else if (outputUnit === "yd") {
+						result = inputValue + " Feet is " + (inputValue / 3) + " Yards";
+					} else if (outputUnit === "mi") {
+						result = inputValue + " Feet is " + (inputValue / 5280) + " Miles";
+					}
+					break;
+				case "yd":
+					if (outputUnit === "in") {
+						result = inputValue + " Yards is " + (inputValue * 36) + " Inches";
+					} else if (outputUnit === "ft") {
+						result = inputValue + " Yards is " + (inputValue * 3) + " Feet";
+					} else if (outputUnit === "mi") {
+						result = inputValue + " Yards is " + (inputValue / 1760) + " Miles";
+					}
+					break;
+				case "mi":
+					if (outputUnit === "in") {
+						result = inputValue + " Miles is " + (inputValue * 63360) + " Inches";
+					} else if (outputUnit === "ft") {
+						result = inputValue + " Miles is " + (inputValue * 5280) + " Feet";
+					} else if (outputUnit === "yd") {
+						result = inputValue + " Miles is " + (inputValue * 1760) + " Yards";
+					}
+					break;
+				// Weight Conversion
+				case "gr":
+					if (outputUnit === "lb") {
+						result = inputValue + " Grains is " + (inputValue / 7000) + " Pounds";
+					} else if (outputUnit === "st") {
+						result = inputValue + " Grains is " + (inputValue / 98000) + " Stones";
+					} else if (outputUnit === "oz") {
+						result = inputValue + " Grains is " + (inputValue / 437.5) + " Ounces";
+					} else if (outputUnit === "ton") {
+						result = inputValue + " Grains is " + (inputValue / 1.568e+7) + " Tons";
+					}
+					break;
+				case "oz":
+					if (outputUnit === "lb") {
+						result = inputValue + " Ounces is " + (inputValue / 16) + " Pounds";
+					} else if (outputUnit === "st") {
+						result = inputValue + " Ounces is " + (inputValue / 224) + " Stones";
+					} else if (outputUnit === "gr") {
+						result = inputValue + " Ounces is " + (inputValue * 437.5) + " Grains";
+					} else if (outputUnit === "ton") {
+						result = inputValue + " Ounces is " + (inputValue / 35840) + " Tons";
+					}
+					break;
+				case "lb":
+					if (outputUnit === "oz") {
+						result = inputValue + " Pounds is " + (inputValue * 16) + " Ounces";
+					} else if (outputUnit === "st") {
+						result = inputValue + " Pounds is " + (inputValue / 14) + " Stones";
+					} else if (outputUnit === "gr") {
+						result = inputValue + " Pounds is " + (inputValue * 7000) + " Grains";
+					} else if (outputUnit === "ton") {
+						result = inputValue + " Pounds is " + (inputValue / 2240) + " Tons";
+					}
+					break;
+				case "st":
+					if (outputUnit === "oz") {
+						result = inputValue + " Stones is " + (inputValue * 224) + " Ounces";
+					} else if (outputUnit === "lb") {
+						result = inputValue + " Stones is " + (inputValue * 14) + " Pounds";
+					} else if (outputUnit === "gr") {
+						result = inputValue + " Stones is " + (inputValue * 98000) + " Grains";
+					} else if (outputUnit === "ton") {
+						result = inputValue + " Stones is " + (inputValue / 160) + " Tons";
+					}
+					break;
+				case "ton":
+					if (outputUnit === "oz") {
+						result = inputValue + " Tons is " + (inputValue * 35840) + " Ounces";
+					} else if (outputUnit === "lb") {
+						result = inputValue + " Tons is " + (inputValue * 2240) + " Pounds";
+					} else if (outputUnit === "gr") {
+						result = inputValue + " Tons is " + (inputValue * 1.568e+7) + " Grains";
+					} else if (outputUnit === "st") {
+						result = inputValue + " Tons is " + (inputValue * 160) + " Stones";
+					}
+					break;
+
+				// Volume Conversion
+				case "fl_oz":
+					if (outputUnit === "gi") {
+						result = inputValue + " Fluid Ounces is " + (inputValue / 5) + " Gills";
+					} else if (outputUnit === "pt") {
+						result = inputValue + " Fluid Ounces is " + (inputValue / 20) + " Pints";
+					} else if (outputUnit === "qt") {
+						result = inputValue + " Fluid Ounces is " + (inputValue / 40) + " Quarts";
+					} else if (outputUnit === "gal") {
+						result = inputValue + " Fluid Ounces is " + (inputValue / 160) + " Gallons";
+					}
+					break;
+				case "gi":
+					if (outputUnit === "fl_oz") {
+						result = inputValue + " Gills is " + (inputValue * 5) + " Fluid Ounces";
+					} else if (outputUnit === "pt") {
+						result = inputValue + " Gills is " + (inputValue / 4) + " Pints";
+					} else if (outputUnit === "qt") {
+						result = inputValue + " Gills is " + (inputValue / 8) + " Quarts";
+					} else if (outputUnit === "gal") {
+						result = inputValue + " Gills is " + (inputValue / 32) + " Gallons";
+					}
+					break;
+				case "pt":
+					if (outputUnit === "gi") {
+						result = inputValue + " Pints is " + (inputValue * 4) + " Gills";
+					} else if (outputUnit === "fl_oz") {
+						result = inputValue + " Pints is " + (inputValue * 20) + " Fluid Ounces";
+					} else if (outputUnit === "qt") {
+						result = inputValue + " Pints is " + (inputValue / 2) + " Quarts";
+					} else if (outputUnit === "gal") {
+						result = inputValue + " Pints is " + (inputValue / 8) + " Gallons";
+					}
+					break;
+				case "qt":
+					if (outputUnit === "gi") {
+						result = inputValue + " Quarts is " + (inputValue * 8) + " Gills";
+					} else if (outputUnit === "fl_oz") {
+						result = inputValue + " Quarts is " + (inputValue * 32) + " Fluid Ounces";
+					} else if (outputUnit === "pt") {
+						result = inputValue + " Quarts is " + (inputValue * 2) + " Pints";
+					} else if (outputUnit === "gal") {
+						result = inputValue + " Quarts is " + (inputValue / 4) + " Gallons";
+					}
+					break;
+				case "gal":
+					if (outputUnit === "gi") {
+						result = inputValue + " Gallons is " + (inputValue * 32) + " Gills";
+					} else if (outputUnit === "fl_oz") {
+						result = inputValue + " Gallons is " + (inputValue * 160) + " Fluid Ounces";
+					} else if (outputUnit === "pt") {
+						result = inputValue + " Gallons is " + (inputValue * 8) + " Pints";
+					} else if (outputUnit === "qt") {
+						result = inputValue + " Gallons is " + (inputValue * 4) + " Quarts";
+					}
+					break;
+				// Area Conversion
+				case "sq in":
+					if (outputUnit === "sq ft") {
+						result = inputValue + " Square Inches is " + (inputValue / 144) + " Square Feet";
+					} else if (outputUnit === "sq yd") {
+						result = inputValue + " Square Inches is " + (inputValue / 1296) + " Square Yards";
+					} else if (outputUnit === "acre") {
+						result = inputValue + " Square Inches is " + (inputValue / 6.273e+6) + " Acres";
+					}
+					break;
+				case "sq ft":
+					if (outputUnit === "sq in") {
+						result = inputValue + " Square Feet is " + (inputValue * 144) + " Square Inches";
+					} else if (outputUnit === "sq yd") {
+						result = inputValue + " Square Feet is " + (inputValue / 9) + " Square Yards";
+					} else if (outputUnit === "acre") {
+						result = inputValue + " Square Feet is " + (inputValue / 43560) + " Acres";
+					}
+					break;
+				case "sq yd":
+					if (outputUnit === "sq in") {
+						result = inputValue + " Square Yards is " + (inputValue * 1296) + " Square Inches";
+					} else if (outputUnit === "sq ft") {
+						result = inputValue + " Square Yards is " + (inputValue * 9) + " Square Feet";
+					} else if (outputUnit === "acre") {
+						result = inputValue + " Square Yards is " + (inputValue / 4840) + " Acres";
+					}
+					break;
+				case "acre":
+					if (outputUnit === "sq in") {
+						result = inputValue + " Acres is " + (inputValue * 6.273e+6) + " Square Inches";
+					} else if (outputUnit === "sq ft") {
+						result = inputValue + " Acres is " + (inputValue * 43560) + " Square Feet";
+					} else if (outputUnit === "sq yd") {
+						result = inputValue + " Acres is " + (inputValue * 4840) + " Square Yards";
+					}
+					break;
+				// Temperature Conversion
+				case "C":
+					if (outputUnit === "F") {
+						result = inputValue + " Celsius is " + ((inputValue * 9/5) + 32) + " Fahrenheit";
+					} else if (outputUnit === "K") {
+						result = inputValue + " Celsius is " + (inputValue + 273.15) + " Kelvin";
+					}
+					break;
+				case "F":
+					if (outputUnit === "C") {
+						result = inputValue + " Fahrenheit is " + ((inputValue - 32) * 5/9) + " Celsius";
+					} else if (outputUnit === "K") {
+						result = inputValue + " Fahrenheit is " + ((inputValue - 32) * 5/9 + 273.15) + " Kelvin";
+					}
+					break;
+				case "K":
+					if (outputUnit === "C") {
+						result = inputValue + " Kelvin is " + (inputValue - 273.15) + " Celsius";
+					} else if (outputUnit === "F") {
+						result = inputValue + " Kelvin is " + ((inputValue - 273.15) * 9/5 + 32) + " Fahrenheit";
+					}
+					break;
+					default:
+						result = "Please select valid units.";
+			}
+		  }
+		  document.getElementById("result").innerText = result;
+		}
+
+		function updateTable() {
+        const formulaTable = document.getElementById('formula');
+        const selectedMeasurement = document.getElementById('chooseM').value;
+
+        let tableContent = '';
+
+        switch (selectedMeasurement) {
+			case 'length':
+				tableContent = `
+					<thead>
+						<tr>
+							<th>Unit</th>
+							<th>Symbol</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Inch</td>
+							<td>in</td>
+						</tr>
+						<tr>
+							<td>Feet</td>
+							<td>ft</td>
+						</tr>
+						<tr>
+							<td>Yard</td>
+							<td>yd</td>
+						</tr>
+						<tr>
+							<td>Mile</td>
+							<td>mi</td>
+						</tr>
+					</tbody>
+				`;
+				break;
+			case 'massweight':
+				tableContent = `
+					<thead>
+						<tr>
+							<th>Unit</th>
+							<th>Symbol</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Grain</td>
+							<td>gr</td>
+						</tr>
+						<tr>
+							<td>Ounce</td>
+							<td>oz</td>
+						</tr>
+						<tr>
+							<td>Pound</td>
+							<td>lb</td>
+						</tr>
+						<tr>
+							<td>Stone</td>
+							<td>st</td>
+						</tr>
+						<tr>
+							<td>Ton</td>
+							<td>ton</td>
+						</tr>
+					</tbody>
+				`;
+				break;
+			case 'volume':
+				tableContent = `
+					<thead>
+						<tr>
+							<th>Unit</th>
+							<th>Symbol</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Fluid Ounce</td>
+							<td>fl_oz</td>
+						</tr>
+						<tr>
+							<td>Gill</td>
+							<td>gi</td>
+						</tr>
+						<tr>
+							<td>Pint</td>
+							<td>pt</td>
+						</tr>
+						<tr>
+							<td>Quart</td>
+							<td>qt</td>
+						</tr>
+						<tr>
+							<td>Gallon</td>
+							<td>gal</td>
+						</tr>
+					</tbody>
+				`;
+				break;
+			case 'area':
+				tableContent = `
+					<thead>
+						<tr>
+							<th>Unit</th>
+							<th>Symbol</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Square Inch</td>
+							<td>sq in</td>
+						</tr>
+						<tr>
+							<td>Square Feet</td>
+							<td>sq ft</td>
+						</tr>
+						<tr>
+							<td>Square Yard</td>
+							<td>sq yd</td>
+						</tr>
+						<tr>
+							<td>Acre</td>
+							<td>acre</td>
+						</tr>
+					</tbody>
+				`;
+				break;
+			case 'temperature':
+				tableContent = `
+					<thead>
+						<tr>
+							<th>Unit</th>
+							<th>Symbol</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Celsius</td>
+							<td>C</td>
+						</tr>
+						<tr>
+							<td>Fahrenheit</td>
+							<td>F</td>
+						</tr>
+						<tr>
+							<td>Kelvin</td>
+							<td>K</td>
+						</tr>
+					</tbody>
+				`;
+				break;
+		}
+		formulaTable.innerHTML = tableContent;
+	}
+	updateTable();
+
+</script>
+</body>
+</html>

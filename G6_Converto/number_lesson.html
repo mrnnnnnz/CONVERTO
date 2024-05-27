@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Converto</title>
+    <meta charset="UTF-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        header {
+            height: 80px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            z-index: 2;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        #logo {
+            line-height: 60px;
+            cursor: pointer;
+            font-size: 30px;
+            font-weight: bold;
+            color: #00a7ff; /* blue */
+            text-decoration: none;
+        }
+
+        #logo:hover {
+            color: #eef9ff; /* light blue */
+        }
+
+        #logo-s {
+            color: #eef9ff; /* light blue */
+        }
+
+        #logo:hover #logo-s {
+            color: #00a7ff; /* blue */
+        }
+		
+		.sign {
+            line-height: 60px;
+        }
+
+        .sign button, .sign a {
+            color: #fff;
+            background-color: #00a7ff; /* blue */
+            font-weight: bold;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .sign button:hover, .sign a:hover {
+            background-color: #0077b6; /* dark blue */
+        }
+
+        .slider {
+            position: relative;
+            width: 100%;
+            background: #0D203B; /* dark blue */
+        }
+        
+        .myslide {
+            height: 750px;
+            display: none;
+            display: flex;
+        }
+
+        .side-text {
+            color: #fff;
+			width: 50%;
+			text-align: justify;
+			margin-top: 9%;
+			margin-left: 8%;
+        }
+		
+        .side-text h2 {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        .side-text p {
+            font-size: 20px;
+            line-height: 1.5;
+        }
+		
+        .converter-form-container {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            margin-top: -39%;
+        }
+        
+        .converter-form-box {
+			background-color: #fff;
+			border-radius: 10px;
+			padding: 25px;
+			box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+			max-width: 400px;
+			right: 8rem;
+			top: 8.5rem; 
+			display: flex;
+			position: absolute;
+			align-items: center;
+			justify-content: center;
+			box-sizing: border-box;
+        }
+        
+        .converter-form {
+            width: 100%;
+        }
+        
+        .converter-form label,
+        .converter-form select,
+        .converter-form input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .converter-form button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 25px;
+            transition: background-color 0.3s ease;
+            color: #fff;
+            background-color: #00a7ff;
+            border: none;
+            cursor: pointer;
+        }
+
+        .converter-form button:hover {
+            background-color: #0077b6;
+        }
+
+        #result {
+            width: 100%;
+            margin-top: 20px;
+            padding: 20px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        table {
+            width: 100%;
+			margin-top: 20px;
+            border-collapse: collapse;
+            color: #fff;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+			font-size: 20px;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #00a7ff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #0D203B;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #0b2e59;
+        }
+		
+		.formula {
+			width: 70%;
+			margin-top: 7%;
+			margin-left: auto;
+			margin-right: auto;
+			border-collapse: separate;
+			border-spacing: 5px; 
+		}
+
+		.formula td {
+			text-align: justify;
+			padding: 8px;
+			font-size: 18px;
+		}
+
+        footer {
+            background-color: #fff;
+            color: #000;
+            padding: 15px;
+            text-align: center;
+            position: fixed; 
+            width: 100%; 
+            bottom: 0; 
+        }
+
+        footer p {
+            margin: 0; 
+        }
+    </style>
+</head>
+
+<body>
+	<header>
+        <a href="home.html" id="logo">CONVERT<span id="logo-s">O.</span></a>
+        <div class="sign">
+            <a onclick="scrollToSlide(1)">Lesson</a>
+            <a onclick="scrollToSlide(2)">Formula</a>
+        </div>
+    </header>
+
+    <div class="slider">
+		<div class="myslide">
+			<div class="side-text">
+				<h2>Number System Converter</h2>
+				<p>A number system is defined as the representation of numbers by using digits or other symbols in a consistent manner. 
+				The value of any digit in a number can be determined by a digit, its position in the number, and the base of the number system. 
+				The numbers are represented in a unique manner and allow us to operate arithmetic operations like addition, subtraction, and division.</p>
+				<table>
+                    <tr>
+                        <th>Unit</th>
+                        <th>Symbol</th>
+                    </tr>
+                    <tr>
+                        <td>Decimal</td>
+                        <td>Base-10 system (0-9)</td>
+                    </tr>
+                    <tr>
+                        <td>Binary</td>
+                        <td>Base-2 system (0,1)</td>
+                    </tr>
+                    <tr>
+                        <td>Octal</td>
+                        <td>Base-8 system (0-7)</td>
+                    </tr>
+                    <tr>
+                        <td>Hexadecimal</td>
+                        <td>Base-16 system (0-9, A-F)</td>
+                    </tr>
+                </table>
+			</div>
+			
+            <div class="converter-form-container">
+				<div class="converter-form-box">
+					<div class="converter-form">
+						<label for="inputValue">Enter Value:</label>
+						<input type="number" id="inputValue">
+						<label for="inputSystem">From:</label>
+						<select id="inputSystem">
+							<option value="decimal">Decimal</option>
+							<option value="binary">Binary</option>
+							<option value="octal">Octal</option>
+							<option value="hexadecimal">Hexadecimal</option>
+						</select>
+
+						<label for="outputSystem">To:</label>
+						<select id="outputSystem">
+							<option value="decimal">Decimal</option>
+							<option value="binary">Binary</option>
+							<option value="octal">Octal</option>
+							<option value="hexadecimal">Hexadecimal</option>
+						</select>
+
+						<div id="result"></div>
+						<button onclick="convert()">Convert</button>
+					</div>
+				</div>
+			</div>
+        </div>
+		
+		<div class="myslide">
+			<table class="formula">
+				<tr>
+					<td>Decimal to Binary</td>
+					<td>Convert decimal to binary by dividing by 2 and recording remainders.</td>
+				</tr>
+				<tr>
+					<td>Decimal to Octal</td>
+					<td>Convert decimal to octal by dividing by 8 and recording remainders.</td>
+				</tr>
+				<tr>
+					<td>Decimal to Hexadecimal</td>
+					<td>Convert decimal to hexadecimal by dividing by 16 and recording remainders.</td>
+				</tr>
+				<tr>
+					<td>Binary to Decimal</td>
+					<td>Convert binary to decimal by multiplying bits by powers of 2.</td>
+				</tr>
+				<tr>
+					<td>Binary to Octal</td>
+					<td>Convert binary to octal by grouping bits into sets of three.</td>
+				</tr>
+				<tr>
+					<td>Binary to Hexadecimal</td>
+					<td>Convert binary to hexadecimal by grouping bits into sets of four.</td>
+				</tr>
+				<tr>
+					<td>Octal to Decimal</td>
+					<td>Convert octal to decimal by multiplying digits by powers of 8.</td>
+				</tr>
+				<tr>
+					<td>Octal to Binary</td>
+					<td>Convert octal to binary by converting each digit to three-bit binary.</td>
+				</tr>
+				<tr>
+					<td>Octal to Hexadecimal</td>
+					<td>Convert octal to hexadecimal by first converting to binary.</td>
+				</tr>
+				<tr>
+					<td>Hexadecimal to Decimal</td>
+					<td>Convert hexadecimal to decimal by multiplying digits by powers of 16.</td>
+				</tr>
+				<tr>
+					<td>Hexadecimal to Binary</td>
+					<td>Convert hexadecimal to binary by replacing each digit with four-bit binary.</td>
+				</tr>
+				<tr>
+					<td>Hexadecimal to Octal</td>
+					<td>Convert hexadecimal to octal by first converting to binary.</td>
+				</tr>
+			</table>
+    </div>
+
+    <footer>
+        <div>
+            <p>&copy; 2024 Converto. All rights reserved.</p>
+        </div>
+    </footer>
+    
+<script>
+	 const myslide = document.querySelectorAll('.myslide');
+    let counter = 1;
+    slidefun(counter);
+
+    function autoSlide() {
+        counter += 1;
+        slidefun(counter);
+    }
+
+    function plusSlides(n) {
+        counter += n;
+        slidefun(counter);
+    }
+
+    function currentSlide(n) {
+        counter = n;
+        slidefun(counter);
+    }
+
+    function scrollToSlide(n) {
+        currentSlide(n);
+        if (n === 1) {
+            myslide[0].scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+    }
+
+    function slidefun(n) {
+        let i;
+        for (i = 0; i < myslide.length; i++) {
+            myslide[i].style.display = "none";
+        }
+        myslide[counter - 1].style.display = "block";
+    }
+		
+		function convert() {
+            var inputValue = document.getElementById("inputValue").value;
+            var inputSystem = document.getElementById("inputSystem").value;
+            var outputSystem = document.getElementById("outputSystem").value;
+            var result;
+
+            if (inputSystem === outputSystem) {
+                result = "Please select different systems.";
+            } else {
+                try {
+                    var decimalValue;
+
+                    switch (inputSystem) {
+                        case "decimal":
+                            decimalValue = parseInt(inputValue, 10);
+                            break;
+                        case "binary":
+                            decimalValue = parseInt(inputValue, 2);
+                            break;
+                        case "octal":
+                            decimalValue = parseInt(inputValue, 8);
+                            break;
+                        case "hexadecimal":
+                            decimalValue = parseInt(inputValue, 16);
+                            break;
+                        default:
+                            throw new Error("Invalid input system");
+                    }
+
+                    if (isNaN(decimalValue)) {
+                        throw new Error("Invalid input value");
+                    }
+
+                    switch (outputSystem) {
+                        case "decimal":
+                            result = inputValue + " in " + inputSystem + " is " + decimalValue + " in decimal";
+                            break;
+                        case "binary":
+                            result = inputValue + " in " + inputSystem + " is " + decimalValue.toString(2) + " in binary";
+                            break;
+                        case "octal":
+                            result = inputValue + " in " + inputSystem + " is " + decimalValue.toString(8) + " in octal";
+                            break;
+                        case "hexadecimal":
+                            result = inputValue + " in " + inputSystem + " is " + decimalValue.toString(16).toUpperCase() + " in hexadecimal";
+                            break;
+                        default:
+                            throw new Error("Invalid output system");
+                    }
+                } catch (e) {
+                    result = e.message;
+                }
+            }
+
+            document.getElementById("result").innerText = result;
+        }
+</script>
+</body>
+</html>
